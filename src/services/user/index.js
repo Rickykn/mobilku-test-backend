@@ -34,6 +34,13 @@ class UserService extends Service {
 
       const userId = newUser.dataValues.id;
 
+      if (!req.file) {
+        return this.handleError({
+          message: "Foto is required",
+          statusCode: 400,
+        });
+      }
+
       const result = [];
       const largeImage = await imageProcessLarge(req);
       const mediumImage = await imageProcessMedium(req);
@@ -42,7 +49,6 @@ class UserService extends Service {
       result.push(mediumImage);
 
       const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
-      const filePath = "user-image";
 
       const newPhotoProfile = await PhotoProfile.create({
         image_url_1: `${uploadFileDomain}/${result[0]}`,
@@ -126,27 +132,31 @@ class UserService extends Service {
         }
       );
 
-      if (req.file) {
-        const result = [];
-        const largeImage = await imageProcessLarge(req);
-        const mediumImage = await imageProcessMedium(req);
-
-        result.push(largeImage);
-        result.push(mediumImage);
-
-        const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
-        const filePath = "user-image";
-
-        await PhotoProfile.update(
-          {
-            image_url_1: `${uploadFileDomain}/${result[0]}`,
-            image_url_2: `${uploadFileDomain}/${result[1]}`,
-          },
-          {
-            where: { id },
-          }
-        );
+      if (!req.file) {
+        return this.handleError({
+          message: "Foto is required",
+          statusCode: 400,
+        });
       }
+
+      const result = [];
+      const largeImage = await imageProcessLarge(req);
+      const mediumImage = await imageProcessMedium(req);
+
+      result.push(largeImage);
+      result.push(mediumImage);
+
+      const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
+
+      await PhotoProfile.update(
+        {
+          image_url_1: `${uploadFileDomain}/${result[0]}`,
+          image_url_2: `${uploadFileDomain}/${result[1]}`,
+        },
+        {
+          where: { user_id: id },
+        }
+      );
 
       return this.handleSuccess({
         message: "Updated Success",
