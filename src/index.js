@@ -27,3 +27,5 @@ app.use("/users", userRoutes);
 app.listen(PORT, () => {
   console.log("Listening in port", PORT);
 });
+
+module.exports = app;
