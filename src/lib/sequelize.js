@@ -12,7 +12,10 @@ const postgresConfig = require("../configs/database");
 //   logging: false,
 // });
 
-const sequelize = new Sequelize(process.env.DB_URL);
+const sequelize = new Sequelize(process.env.DB_URL, {
+  dialect: "postgres",
+  logging: false,
+});
 
 const User = require("../models/user")(sequelize);
 const PhotoProfile = require("../models/photo_profile")(sequelize);
