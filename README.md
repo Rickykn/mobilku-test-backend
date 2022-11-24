@@ -19,3 +19,7 @@ UPLOAD_FILE_DOMAIN=http://localhost:2000
 # POSTMAN DOCUMENTATION
 
 https://documenter.getpostman.com/view/19447278/2s8YsnYGkq
+
+# Domain Production
+
+https://mobilku-test-backend.vercel.app/
