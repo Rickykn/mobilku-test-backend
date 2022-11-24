@@ -22,4 +22,4 @@ https://documenter.getpostman.com/view/19447278/2s8YsnYGkq
 
 # Domain Production
 
-https://mobilku-test-backend.vercel.app/
+https://deploy-mobilku-test.herokuapp.com/
