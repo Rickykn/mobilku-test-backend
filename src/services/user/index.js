@@ -78,6 +78,13 @@ class UserService extends Service {
           },
         ],
       });
+
+      if (!findUser) {
+        return this.handleError({
+          message: "User Not Found",
+          statusCode: 400,
+        });
+      }
       return this.handleSuccess({
         message: "Get User Success",
         statusCode: 200,
