@@ -45,8 +45,8 @@ class UserService extends Service {
       const filePath = "user-image";
 
       const newPhotoProfile = await PhotoProfile.create({
-        image_url_1: `${uploadFileDomain}/${filePath}/${result[0]}`,
-        image_url_2: `${uploadFileDomain}/${filePath}/${result[1]}`,
+        image_url_1: `${uploadFileDomain}/${result[0]}`,
+        image_url_2: `${uploadFileDomain}/${result[1]}`,
         user_id: userId,
       });
 
@@ -139,8 +139,8 @@ class UserService extends Service {
 
         await PhotoProfile.update(
           {
-            image_url_1: `${uploadFileDomain}/${filePath}/${result[0]}`,
-            image_url_2: `${uploadFileDomain}/${filePath}/${result[1]}`,
+            image_url_1: `${uploadFileDomain}/${result[0]}`,
+            image_url_2: `${uploadFileDomain}/${result[1]}`,
           },
           {
             where: { id },

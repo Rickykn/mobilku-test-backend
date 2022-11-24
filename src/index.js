@@ -6,9 +6,9 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 
-const { sequelize } = require("./src/lib/sequelize");
+const { sequelize } = require("./lib/sequelize");
 
-const { userRoutes } = require("./src/routes");
+const { userRoutes } = require("./routes");
 
 sequelize.sync({ alter: true });
 
@@ -17,7 +17,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/user-image", express.static(`${__dirname}/public/resized`));
+app.use("/", express.static(`${__dirname}/public/resized`));
 
 app.get("/", (req, res) => {
   res.send("<h1>Mobilku Test Backend</h1>");
@@ -27,5 +27,3 @@ app.use("/users", userRoutes);
 app.listen(PORT, () => {
   console.log("Listening in port", PORT);
 });
-
-module.exports = app;
