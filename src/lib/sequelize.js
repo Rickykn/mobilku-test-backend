@@ -1,5 +1,6 @@
 const { Sequelize } = require("sequelize");
 const postgresConfig = require("../configs/database");
+const pg = require("pg");
 
 // local connect database
 // const sequelize = new Sequelize({
@@ -13,7 +14,7 @@ const postgresConfig = require("../configs/database");
 // });
 
 const sequelize = new Sequelize(process.env.DB_URL, {
-  dialect: "postgres",
+  dialectModule: pg,
   logging: false,
 });
 
