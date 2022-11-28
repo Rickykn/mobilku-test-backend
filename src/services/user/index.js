@@ -94,7 +94,7 @@ class UserService extends Service {
 
   static updateUser = async (req) => {
     try {
-      const { name, dob, age, phone_number, city, education } = req.body;
+      const { name, date, usia, mobile, city, education } = req.body;
       const { id } = req.params;
 
       const findUser = await User.findOne({ where: { id } });
@@ -118,9 +118,9 @@ class UserService extends Service {
       await User.update(
         {
           name,
-          dob,
-          age,
-          phone_number,
+          date,
+          usia,
+          mobile,
           city,
           education,
           image1: `${uploadFileDomain}/${result[0]}`,
