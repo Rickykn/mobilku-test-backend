@@ -4,11 +4,12 @@ const {
   imageProcessLarge,
   imageProcessMedium,
 } = require("../../lib/imageProcess");
+const moment = require("moment");
 
 class UserService extends Service {
   static createUser = async (req) => {
     try {
-      const { name, dob, age, phone_number, city, education } = req.body;
+      const { name, date, usia, mobile, city, education } = req.body;
 
       if (!req.file) {
         return this.handleError({
@@ -32,9 +33,9 @@ class UserService extends Service {
 
       const newUser = await User.create({
         name,
-        dob,
-        age,
-        phone_number,
+        date,
+        usia,
+        mobile,
         city,
         education,
       });
@@ -77,13 +78,7 @@ class UserService extends Service {
     try {
       const { id } = req.params;
 
-      const findUser = await User.findByPk(id, {
-        include: [
-          {
-            model: PhotoProfile,
-          },
-        ],
-      });
+      const findUser = await User.findByPk(id);
 
       if (!findUser) {
         return this.handleError({
@@ -91,6 +86,10 @@ class UserService extends Service {
           statusCode: 400,
         });
       }
+
+      const formated = moment(findUser.dataValues.date).format("DD MMMM YYYY");
+      findUser.dataValues.date = formated;
+
       return this.handleSuccess({
         message: "Get User Success",
         statusCode: 200,

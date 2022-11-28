@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", userRoutes);
+
 app.listen(PORT, () => {
   console.log("Listening in port", PORT);
 });

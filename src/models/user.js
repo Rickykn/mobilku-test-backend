@@ -6,14 +6,13 @@ const User = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    dob: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    date: {
+      type: DataTypes.DATE,
     },
-    age: {
+    usia: {
       type: DataTypes.INTEGER,
     },
-    phone_number: {
+    mobile: {
       type: DataTypes.STRING,
     },
     city: {

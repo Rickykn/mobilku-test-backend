@@ -24,7 +24,6 @@ const userController = {
       if (!serviceResult.success) throw serviceResult;
 
       return res.status(serviceResult.statusCode || 201).json({
-        message: serviceResult.message,
         result: serviceResult.data,
       });
     } catch (err) {

@@ -8,7 +8,7 @@ router.post(
   fileUploader({
     prefix: "POST",
     fileType: "image",
-  }).single("user_image"),
+  }).single("image"),
   userController.createuser
 );
 
@@ -19,7 +19,7 @@ router.put(
   fileUploader({
     prefix: "POST",
     fileType: "image",
-  }).single("user_image"),
+  }).single("image"),
   userController.updateuser
 );
 
