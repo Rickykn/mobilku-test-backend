@@ -78,7 +78,13 @@ class UserService extends Service {
     try {
       const { id } = req.params;
 
-      const findUser = await User.findByPk(id);
+      const findUser = await User.findByPk(id, {
+        include: [
+          {
+            model: PhotoProfile,
+          },
+        ],
+      });
 
       if (!findUser) {
         return this.handleError({
