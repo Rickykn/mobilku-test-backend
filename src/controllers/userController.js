@@ -24,11 +24,11 @@ const userController = {
       if (!serviceResult.success) throw serviceResult;
 
       return res.status(serviceResult.statusCode || 201).json({
-        result: serviceResult.data,
+        data: serviceResult.data,
       });
     } catch (err) {
       return res.status(err.statusCode || 500).json({
-        data: err.message,
+        message: err.message,
       });
     }
   },
