@@ -19,13 +19,8 @@ const sequelize = new Sequelize(process.env.DB_URL, {
 });
 
 const User = require("../models/user")(sequelize);
-const PhotoProfile = require("../models/photo_profile")(sequelize);
-
-PhotoProfile.belongsTo(User, { foreignKey: "user_id", onDelete: "CASCADE" });
-User.hasMany(PhotoProfile, { foreignKey: "user_id", onDelete: "CASCADE" });
 
 module.exports = {
   sequelize,
   User,
-  PhotoProfile,
 };

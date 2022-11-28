@@ -21,6 +21,12 @@ const User = (sequelize) => {
     education: {
       type: DataTypes.STRING,
     },
+    image1: {
+      type: DataTypes.STRING,
+    },
+    image2: {
+      type: DataTypes.STRING,
+    },
   });
 };
 

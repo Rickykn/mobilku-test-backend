@@ -31,17 +31,6 @@ class UserService extends Service {
         });
       }
 
-      const newUser = await User.create({
-        name,
-        date,
-        usia,
-        mobile,
-        city,
-        education,
-      });
-
-      const userId = newUser.dataValues.id;
-
       const result = [];
       const largeImage = await imageProcessLarge(req);
       const mediumImage = await imageProcessMedium(req);
@@ -51,13 +40,16 @@ class UserService extends Service {
 
       const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
 
-      const newPhotoProfile = await PhotoProfile.create({
-        image_url_1: `${uploadFileDomain}/${result[0]}`,
-        image_url_2: `${uploadFileDomain}/${result[1]}`,
-        user_id: userId,
+      const newUser = await User.create({
+        name,
+        date,
+        usia,
+        mobile,
+        city,
+        education,
+        image1: `${uploadFileDomain}/${result[0]}`,
+        image2: `${uploadFileDomain}/${result[1]}`,
       });
-
-      newUser.dataValues.Image = newPhotoProfile.dataValues;
 
       return this.handleSuccess({
         message: "Created New User",
@@ -78,13 +70,7 @@ class UserService extends Service {
     try {
       const { id } = req.params;
 
-      const findUser = await User.findByPk(id, {
-        include: [
-          {
-            model: PhotoProfile,
-          },
-        ],
-      });
+      const findUser = await User.findByPk(id);
 
       if (!findUser) {
         return this.handleError({
@@ -92,9 +78,6 @@ class UserService extends Service {
           statusCode: 400,
         });
       }
-
-      const formated = moment(findUser.dataValues.date).format("DD MMMM YYYY");
-      findUser.dataValues.date = formated;
 
       return this.handleSuccess({
         message: "Get User Success",
@@ -122,6 +105,15 @@ class UserService extends Service {
           statusCode: 400,
         });
       }
+      const result = [];
+      const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
+      if (req.file) {
+        const largeImage = await imageProcessLarge(req);
+        const mediumImage = await imageProcessMedium(req);
+
+        result.push(largeImage);
+        result.push(mediumImage);
+      }
 
       await User.update(
         {
@@ -131,32 +123,13 @@ class UserService extends Service {
           phone_number,
           city,
           education,
+          image1: `${uploadFileDomain}/${result[0]}`,
+          image1: `${uploadFileDomain}/${result[1]}`,
         },
         {
           where: { id },
         }
       );
-
-      if (req.file) {
-        const result = [];
-        const largeImage = await imageProcessLarge(req);
-        const mediumImage = await imageProcessMedium(req);
-
-        result.push(largeImage);
-        result.push(mediumImage);
-
-        const uploadFileDomain = process.env.UPLOAD_FILE_DOMAIN;
-
-        await PhotoProfile.update(
-          {
-            image_url_1: `${uploadFileDomain}/${result[0]}`,
-            image_url_2: `${uploadFileDomain}/${result[1]}`,
-          },
-          {
-            where: { user_id: id },
-          }
-        );
-      }
 
       return this.handleSuccess({
         message: "Updated Success",
